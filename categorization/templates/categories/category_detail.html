@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category }}{% endblock %}
+
+{% block content %}
+  <h2>{{ category.name }}</h2>
+  {{ category.description }}
+  <dl>
+    {% for category in category.direct_descendants.all %}
+      <dt><a href="{% url category_detail category.path %}">{{ category.name }}</a></dt>
+      {% if category.direct_descendants.all %}
+        <dd>
+          {% for category in category.direct_descendants.all %}
+            <a href="{% url category_detail category.path %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </dd>
+      {% endif %}
+    {% endfor %}
+  </dl>
+{% endblock %}
